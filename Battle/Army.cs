@@ -19,6 +19,12 @@ namespace Battle
             _soldiers = new List<Soldier>();
         }
 
+        private void ReportCasualty(Soldier soldier)
+        {
+            _soldiers.Remove(soldier);
+            Headquarters.ReportCasualty(soldier.Id);
+        }
+
         public void EnlistSoldier(Soldier soldier)
         {
             _soldiers.Add(soldier);
@@ -28,37 +34,21 @@ namespace Battle
         public bool Engage(Army defenders)
         {
             if (this == defenders)
-                throw new ArgumentException("argument cant fight itself, you stupid");
+                throw new ArgumentException("army cant fight itself, you stupid");
 
-            var hasWon = false;
-
-            while (_soldiers.Any())
+            if (defenders.FrontMan == null)
             {
-                var attacker = FrontMan;
-                var defender = defenders.FrontMan;
-
-                if (defender == null)
-                {
-                    hasWon = true;
-                    break;
-                }
-
-                if (attacker.Fight(defender))
-                {
-                    defenders.Headquarters.ReportCasualty(defender.Id);
-                    defenders._soldiers.Remove(defender);
-                }
-                else
-                {
-                    Headquarters.ReportCasualty(attacker.Id);
-                    _soldiers.Remove(attacker);
-                }
+                this.Headquarters.ReportVictory(_soldiers.Count);
+                return true;
             }
 
-            var winner = hasWon ? this : defenders;
-            winner.Headquarters.ReportVictory(winner.Soldiers.Count);
+            if (this.FrontMan.Fight(defenders.FrontMan))
+            {   
+                defenders.ReportCasualty(defenders.FrontMan);
+                return this.Engage(defenders);
+            }
 
-            return hasWon;
+            return !defenders.Engage(this);
         }
     }
 }
