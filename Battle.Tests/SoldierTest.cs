@@ -1,16 +1,16 @@
 using System;
-using Xunit;
 using FluentAssertions;
+using Xunit;
 
-namespace Battle
+namespace Battle.Tests
 {
     public class SoldierTest
     {
 
         [Fact]
-        public void construction_ASoldierMustHaveAName()
+        public void Construction_ASoldierMustHaveAName()
         {
-            Soldier soldier = new Soldier("name");
+            var soldier = new Soldier("name");
 
             soldier.Name.Should().Be("name");
         }
@@ -19,7 +19,11 @@ namespace Battle
         [InlineData("")]
         [InlineData("        ")]
         [InlineData(null)]
-        public void construction_ASoldierMustHaveAName_CannotBeBlank(string name)
-            => ((Action)(() => new Soldier(name))).ShouldThrow<ArgumentException>();
+        public void Construction_ASoldierMustHaveAName_CannotBeBlank(string name)
+        {
+            Action act = () => new Soldier(name);
+             
+            act.Should().Throw<ArgumentException>();
+        }
     }
 }
