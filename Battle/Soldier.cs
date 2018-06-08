@@ -33,7 +33,7 @@ namespace Battle
 
         public bool Fight(Soldier defender)
         {
-            return this.Weapon.Damage >= defender.Weapon.Damage;
+            return this.Weapon >= defender.Weapon;
         }
     }
 }
