@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CSharpFunctionalExtensions;
 using FluentAssertions;
 using Xunit;
 
@@ -18,21 +19,22 @@ namespace Battle.Tests
 
             new War().WithAttacker(attacker).WithDefender(defender).Fight();
 
-            attacker.GetFrontMan().Should().NotBeNull();
-            defender.GetFrontMan().Should().BeNull();
+            attacker.GetFrontMan().Should().BeEquivalentTo(Maybe<Soldier>.From(soldier1));
+            defender.GetFrontMan().Should().BeEquivalentTo(Maybe<Soldier>.None);
         }
 
         [Fact]
         public void Given_Fight_When_ArmyHasManySoldiers_Then_ArmyWithLastManStandingWins()
         {
+            var lastSoldierStanding = Soldier.Create("marcel").Value;
             var attacker =
-                ArmyFactory.WithSoldiers(Soldier.Create("marcel").Value, Soldier.Create("petrica").Value, Soldier.Create("stefan").Value);
+                ArmyFactory.WithSoldiers(lastSoldierStanding, Soldier.Create("petrica").Value, Soldier.Create("stefan").Value);
             var defender = ArmyFactory.WithSoldiers(Soldier.Create("marcel").Value, Soldier.Create("petrica").Value);
            
             new War().WithAttacker(attacker).WithDefender(defender).Fight();
 
-            attacker.GetFrontMan().Should().NotBeNull();
-            defender.GetFrontMan().Should().BeNull();
+            attacker.GetFrontMan().Should().BeEquivalentTo(Maybe<Soldier>.From(lastSoldierStanding));
+            defender.GetFrontMan().Should().BeEquivalentTo(Maybe<Soldier>.None);
         }
     }
 

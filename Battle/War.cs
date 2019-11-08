@@ -19,7 +19,7 @@
 
         public void Fight()
         {
-            while (attacker.GetFrontMan().HasValue || defender.GetFrontMan().HasValue)
+            while (attacker.GetFrontMan().HasValue && defender.GetFrontMan().HasValue)
             {
                 var attackerFrontMan = attacker.GetFrontMan().Value;
                 var defenderFrontMan = defender.GetFrontMan().Value;
