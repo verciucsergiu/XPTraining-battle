@@ -15,9 +15,16 @@ namespace Battle
                 .Map(() => new Soldier(name));
         }
 
+        public int Id { get; private set; }
+
         public string Name { get; }
 
         public Weapon Weapon { get; private set; } = new BareFist();
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
 
         public Soldier WithWeapon(Weapon weapon)
         {
