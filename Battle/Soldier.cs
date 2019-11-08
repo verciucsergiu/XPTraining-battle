@@ -7,6 +7,7 @@ namespace Battle
         public Soldier(string name)
         {
             ValidateNameisNotBlank(name);
+
             Name = name;
         }
 
