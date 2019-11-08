@@ -1,7 +1,4 @@
 ﻿using Battle.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Battle.Tests
 {
@@ -10,5 +7,7 @@ namespace Battle.Tests
         public static Soldier Get() => Soldier.Create("name").Value;
 
         public static Soldier WithWeapon(Weapon weapon) => Get().WithWeapon(weapon);
+
+        public static Soldier HighlyTrained() => Get().Train();
     }
 }

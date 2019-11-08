@@ -17,7 +17,15 @@ namespace Battle
 
         public string Name { get; }
 
+        public bool IsHighlyTrained { get; private set; }
+
         public Weapon Weapon { get; private set; } = new BareFist();
+
+        public Soldier Train()
+        {
+            this.IsHighlyTrained = true;
+            return this;
+        }
 
         public Soldier WithWeapon(Weapon weapon)
         {
@@ -27,7 +35,10 @@ namespace Battle
 
         public FightResult Attack(Soldier other)
         {
-            if(this.Weapon.Damage >= other.Weapon.Damage)
+            var attackerDamage = this.Weapon.FightAgainst(other.Weapon).FightingDamage;
+            var defenderDamage = other.Weapon.FightAgainst(this.Weapon).FightingDamage;
+
+            if (attackerDamage >= defenderDamage)
             {
                 return new FightResult(this, other);
             }
