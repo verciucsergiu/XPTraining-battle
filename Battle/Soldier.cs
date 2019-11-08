@@ -22,9 +22,9 @@ namespace Battle
 
         public string Name { get; }
         
-        public FightResult Fight(Soldier other)
+        public FightResult Attack(Soldier other)
         {
-            return new FightResult();
+            return new FightResult(this, other);
         }
 
         private bool IsBlank(string name) => string.IsNullOrEmpty(name?.Trim());
