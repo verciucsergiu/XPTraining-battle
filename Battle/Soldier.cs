@@ -1,32 +1,39 @@
-using System;
-
+using Battle.Weapons;
+using CSharpFunctionalExtensions;
 namespace Battle
 {
     public class Soldier
     {
-        public Soldier(string name)
+        private Soldier(string name)
         {
-            ValidateNameisNotBlank(name);
-
             Name = name;
         }
 
-        private void ValidateNameisNotBlank(string name)
+        public static Result<Soldier> Create(string name)
         {
-            if (IsBlank(name))
-            {
-                throw new ArgumentException("name can not be blank");
-            }
+            return Result.SuccessIf(!string.IsNullOrEmpty(name?.Trim()), "Name cannot be blank!")
+                .Map(() => new Soldier(name));
         }
-
 
         public string Name { get; }
-        
-        public FightResult Attack(Soldier other)
+
+        public Weapon Weapon { get; private set; } = new BareFist();
+
+        public Soldier WithWeapon(Weapon weapon)
         {
-            return new FightResult(this, other);
+            this.Weapon = weapon;
+            return this;
         }
 
-        private bool IsBlank(string name) => string.IsNullOrEmpty(name?.Trim());
+        public FightResult Attack(Soldier other)
+        {
+            if(this.Weapon.Damage >= other.Weapon.Damage)
+            {
+                return new FightResult(this, other);
+            }
+
+            return new FightResult(other, this);
+        }
+
     }
 }

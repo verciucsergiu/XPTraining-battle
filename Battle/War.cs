@@ -19,14 +19,14 @@
 
         public void Fight()
         {
-            while (attacker.GetFrontMan() != null || defender.GetFrontMan() != null)
+            while (attacker.GetFrontMan().HasValue || defender.GetFrontMan().HasValue)
             {
-                var attackerFrontMan = attacker.GetFrontMan();
-                var defenderFrontMan = defender.GetFrontMan();
+                var attackerFrontMan = attacker.GetFrontMan().Value;
+                var defenderFrontMan = defender.GetFrontMan().Value;
 
                 var attackResult =  attackerFrontMan.Attack(defenderFrontMan);
-                attacker.HandleFightResult(attackResult);
-                defender.HandleFightResult(attackResult);
+                attacker.RemoveDeadSoldierIfNeeded(attackResult.Loser);
+                defender.RemoveDeadSoldierIfNeeded(attackResult.Loser);
             }
         }
     }

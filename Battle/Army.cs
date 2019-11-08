@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CSharpFunctionalExtensions;
 
 namespace Battle
 {
@@ -19,18 +20,18 @@ namespace Battle
             soldiers.Add(soldier);
         }
 
-        public Soldier GetFrontMan()
+        public Maybe<Soldier> GetFrontMan()
         {
-            var fightingSoldier = soldiers.FirstOrDefault();
+            Maybe<Soldier> fightingSoldier = soldiers.FirstOrDefault();
 
             return fightingSoldier;
         }
 
-        public void HandleFightResult(FightResult fightResult)
+        public void RemoveDeadSoldierIfNeeded(Soldier deadSoldier)
         {
-            if (soldiers.Contains(fightResult.Loser))
+            if (soldiers.Contains(deadSoldier))
             {
-                soldiers.Remove(fightResult.Loser);
+                soldiers.Remove(deadSoldier);
             }
         }
     }

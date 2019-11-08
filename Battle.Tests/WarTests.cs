@@ -10,10 +10,10 @@ namespace Battle.Tests
         public void Given_Fight_When_ArmiesAreProvided_Then_ArmyWithLastManStandingWins()
         {
             var attacker = new Army("OasteaLuiStefan");
-            var soldier1 = new Soldier("AttackerSoldier");
+            var soldier1 = Soldier.Create("AttackerSoldier").Value;
             attacker.EnrollSoldier(soldier1);
             var defender = new Army("OasteaLuiSuleiman");
-            var soldier2 = new Soldier("DefenderSoldier");
+            var soldier2 = Soldier.Create("DefenderSoldier").Value;
             defender.EnrollSoldier(soldier2);
 
             new War().WithAttacker(attacker).WithDefender(defender).Fight();
@@ -26,10 +26,9 @@ namespace Battle.Tests
         public void Given_Fight_When_ArmyHasManySoldiers_Then_ArmyWithLastManStandingWins()
         {
             var attacker =
-                ArmyFactory.WithSoldiers(new Soldier("marcel"), new Soldier("petrica"), new Soldier("stefan"));
-            var defender = ArmyFactory.WithSoldiers(new Soldier("marcel"), new Soldier("petrica"));
+                ArmyFactory.WithSoldiers(Soldier.Create("marcel").Value, Soldier.Create("petrica").Value, Soldier.Create("stefan").Value);
+            var defender = ArmyFactory.WithSoldiers(Soldier.Create("marcel").Value, Soldier.Create("petrica").Value);
            
-
             new War().WithAttacker(attacker).WithDefender(defender).Fight();
 
             attacker.GetFrontMan().Should().NotBeNull();
