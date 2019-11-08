@@ -19,8 +19,14 @@ namespace Battle
             }
         }
 
-        private bool IsBlank(string name) => string.IsNullOrEmpty(name?.Trim());
-        
+
         public string Name { get; }
+        
+        public FightResult Fight(Soldier other)
+        {
+            return new FightResult();
+        }
+
+        private bool IsBlank(string name) => string.IsNullOrEmpty(name?.Trim());
     }
 }
