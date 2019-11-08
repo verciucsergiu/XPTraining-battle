@@ -15,6 +15,8 @@ namespace Battle
                 .Map(() => new Soldier(name));
         }
 
+        public int Id { get; private set; }
+
         public string Name { get; }
 
         public bool IsHighlyTrained { get; private set; }
@@ -25,6 +27,11 @@ namespace Battle
         {
             this.IsHighlyTrained = true;
             return this;
+        }
+
+        public void SetId(int id)
+        {
+            Id = id;
         }
 
         public Soldier WithWeapon(Weapon weapon)
